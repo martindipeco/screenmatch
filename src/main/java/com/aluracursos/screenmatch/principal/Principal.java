@@ -1,5 +1,6 @@
 package com.aluracursos.screenmatch.principal;
 
+import com.aluracursos.screenmatch.model.DatosEpisodio;
 import com.aluracursos.screenmatch.model.DatosSerie;
 import com.aluracursos.screenmatch.model.DatosTemporada;
 import com.aluracursos.screenmatch.service.ApiKey;
@@ -37,5 +38,13 @@ public class Principal {
             listaDeTemporadas.add(datosListaTemporadas);
         }
         listaDeTemporadas.forEach(System.out::println);
+
+        for (int i = 0; i < datos.totalTemporadas(); i++) {
+            List<DatosEpisodio> episodiosTemporadas = listaDeTemporadas.get(i).listaEpisodios();
+            for (int j = 0; j < episodiosTemporadas.size(); j++) {
+                System.out.println(episodiosTemporadas.get(j).titulo());
+            }
+        }
+        listaDeTemporadas.forEach(t -> t.listaEpisodios().forEach(e -> System.out.println(e.titulo())));
     }
 }

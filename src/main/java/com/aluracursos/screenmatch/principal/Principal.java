@@ -11,6 +11,7 @@ import com.aluracursos.screenmatch.service.ConvierteDatos;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class Principal {
@@ -100,5 +101,19 @@ public class Principal {
         {
             System.out.println("Episodio no encontrado");
         }
+
+        Map<Integer, Double> evaluacionesPorTemporada = listaEpisodios.stream()
+                .filter(e -> e.getEvaluacion()>0.0) //evito traer episodios sin calificación
+                .collect(Collectors.groupingBy(Episodio::getNumTemporada
+                        , Collectors.averagingDouble(Episodio::getEvaluacion)));
+
+        System.out.println(evaluacionesPorTemporada);
+
+        DoubleSummaryStatistics est = listaEpisodios.stream()
+                .filter(episodio -> episodio.getEvaluacion()>0.0)
+                .collect(Collectors.summarizingDouble(Episodio::getEvaluacion));
+
+        System.out.println(est); //trae todos los datos
+        System.out.println("El mejor evaluado tuvo " + est.getMax() + " puntos.");
     }
 }
